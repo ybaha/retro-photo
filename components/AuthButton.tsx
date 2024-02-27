@@ -14,19 +14,7 @@ export default async function AuthButton() {
 
   return user ? (
     <div className="flex items-center gap-4">
-      Hey, {user.email}!
       <form>
-        <Button
-          type="submit"
-          formAction={async () => {
-            "use server";
-            return redirect("/dashboard");
-          }}
-          variant="outline"
-          className="h-8"
-        >
-          Dashboard
-        </Button>
         {/* button to sign out */}
         <Button
           type="submit"
