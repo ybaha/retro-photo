@@ -15,7 +15,7 @@ import {
   deleteImage,
   markImagesAsExpired,
 } from "@/app/(dashboard)/dashboard/create-link/actions";
-import { Tables } from "@/types/supabase-types";
+import { Enums, Tables } from "@/types/supabase-types";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Download, ExternalLink, Loader } from "lucide-react";
@@ -27,7 +27,7 @@ const statusMap = {
   completed: "Completed",
   adding_watermark: "Almost done",
   deleted: "Deleted",
-};
+} as const;
 
 const getDate = (date: string) => {
   const dateString = new Date(date).toLocaleDateString();
@@ -35,14 +35,21 @@ const getDate = (date: string) => {
   return `${dateString} ${time}`;
 };
 
-const checkExpired = (params: { id: string; date: string; status: string }) => {
+const checkExpired = (params: {
+  id: string;
+  date: string;
+  status: Enums<"image_status">;
+}) => {
   const { id, date, status } = params;
   // check if 10 min has passed since creation and still status is pending_from_replicate
   const currentDate = new Date();
   const createdDate = new Date(date);
   const diff = currentDate.getTime() - createdDate.getTime();
 
-  if (diff > 10 * 60 * 1000 && status === "pending_from_replicate") {
+  if (
+    diff > 10 * 60 * 1000 &&
+    (status === "pending_from_replicate" || status === "adding_watermark")
+  ) {
     markImagesAsExpired(id);
   }
 };
@@ -89,7 +96,7 @@ export function ImageList({
           status: image.status,
         });
 
-        const status = statusMap[image.status as keyof typeof statusMap];
+        const status = statusMap[image.status];
         const isLoading =
           image.status !== "completed" &&
           image.status !== "error" &&
@@ -163,7 +170,7 @@ export function ImageList({
 }
 
 const ImageSheet = ({ image }: { image: Tables<"images"> }) => {
-  const status = statusMap[image.status as keyof typeof statusMap];
+  const status = statusMap[image.status];
   const isLoading =
     image.status !== "completed" &&
     image.status !== "error" &&
