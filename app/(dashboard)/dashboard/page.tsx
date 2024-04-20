@@ -1,68 +1,59 @@
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
-import { createClient } from "@/utils/supabase/server"
+import { ImageList } from "@/components/ImageList";
+import { DashboardHeader } from "@/components/header";
+import { DashboardShell } from "@/components/shell";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Dropzone from "@/components/ui/dropzone";
+import { getCurrentUser } from "@/lib/session";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-import { getCurrentUser } from "@/lib/session"
-import { Button } from "@/components/ui/button"
-import { EmptyPlaceholder } from "@/components/empty-placeholder"
-import { DashboardHeader } from "@/components/header"
-import { PostCreateButton } from "@/components/post-create-button"
-import { PostItem } from "@/components/post-item"
-import { DashboardShell } from "@/components/shell"
+export const metadata = {
+  title: "Create Images",
+  description: "Create and manage images.",
+};
 
-export default async function DashboardPage() {
-  const cs = cookies()
-  const supabase = createClient(cs)
+export default async function CreateLink() {
+  const user = await getCurrentUser(true);
 
-  const { data } = await supabase.from("profiles").select("*").single()
-
-  const { data: links } = await supabase
-    .from("urls")
-    .select("*")
-    .order("created_at", { ascending: false })
-
-  if (!data) {
-    redirect("/login")
+  if (!user || !user.id) {
+    console.log({ user });
+    redirect("/login");
   }
+
+  const supabase = createClient(cookies());
+
+  const { data: images } = await supabase
+    .from("images")
+    .select("*")
+    .eq("user_id", user.id)
+    .neq("status", "deleted")
+    .neq("status", "error")
+    .order("created_at", { ascending: false });
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Links" text="Create and manage links.">
-        <PostCreateButton />
-      </DashboardHeader>
-      <div>
-        {links?.length ? (
-          <div className="divide-y divide-border rounded-md border">
-            {links.map((link) => (
-              <div className="flex justify-between p-4">
-                <div> {link.slug + " -> " + link.url} </div>
-                <div className="flex items-center gap-4">
-                  <span>{"Click Count: " + link.click_count}</span>
-                  <form>
-                    <Button
-                      formAction={async () => {
-                        "use server"
-                        redirect(`/${link.slug}`)
-                      }}
-                    >
-                      View
-                    </Button>
-                  </form>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="post" />
-            <EmptyPlaceholder.Title>No links created</EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              You don&apos;t have any links yet. Start creating content.
-            </EmptyPlaceholder.Description>
-            <PostCreateButton variant="outline" />
-          </EmptyPlaceholder>
-        )}
+      <DashboardHeader
+        heading="Create Link"
+        text={`You can create ${user.profile?.balance || 0} more images`}
+      />
+      <div className="grid gap-8" suppressHydrationWarning>
+        <form>
+          <Dropzone />
+        </form>
+        {/* list of images */}
+        <ImageList imagesFromServer={images} />
+        <Alert>
+          <AlertTitle>Heads up!</AlertTitle>
+          <AlertDescription>
+            You need to be subscribed to create a link.
+            <a href="/dashboard/billing">Subscribe now</a>.
+          </AlertDescription>
+          <form className="mt-8 gap-4 flex items-center">
+            <span>Balance: {user.profile?.balance}</span>
+          </form>
+        </Alert>
       </div>
     </DashboardShell>
-  )
+  );
 }

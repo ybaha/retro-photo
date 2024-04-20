@@ -1,37 +1,46 @@
-import { notFound } from "next/navigation"
-
-import { dashboardConfig } from "@/config/dashboard"
-import { getCurrentUser } from "@/lib/session"
-import { MainNav } from "@/components/main-nav"
-import { DashboardNav } from "@/components/nav"
-import { SiteFooter } from "@/components/site-footer"
-import { UserAccountNav } from "@/components/user-account-nav"
+import { MainNav } from "@/components/main-nav";
+import { DashboardNav } from "@/components/nav";
+import { SiteFooter } from "@/components/site-footer";
+import { UserAccountNav } from "@/components/user-account-nav";
+import { dashboardConfig } from "@/config/dashboard";
+import { getCurrentUser } from "@/lib/session";
+import { notFound } from "next/navigation";
 
 interface DashboardLayoutProps {
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser(true);
 
   if (!user) {
-    return notFound()
+    return notFound();
   }
 
   return (
     <div className="flex min-h-screen flex-col space-y-6">
       <header className="sticky top-0 z-40 border-b bg-background">
         <div className="container flex h-16 items-center justify-between py-4">
-          <MainNav items={dashboardConfig.mainNav} />
-          <UserAccountNav
-            user={{
-              name: user.name,
-              image: user.image,
-              email: user.email,
-            }}
-          />
+          <MainNav items={dashboardConfig.sidebarNav as any} />
+
+          <div className="flex items-center gap-4">
+            {user.profile?.balance && user.profile.balance >= 0 && (
+              <div className="items-center text-sm">
+                <span className="mr-2">Balance:</span>
+                <span className="font-bold">{user.profile?.balance}</span>
+              </div>
+            )}
+            <UserAccountNav
+              user={{
+                name: user.profile?.full_name,
+                image: user.profile?.avatar_url,
+                email: user.email,
+                balance: user.profile?.balance,
+              }}
+            />
+          </div>
         </div>
       </header>
       <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
@@ -44,5 +53,5 @@ export default async function DashboardLayout({
       </div>
       <SiteFooter className="border-t" />
     </div>
-  )
+  );
 }

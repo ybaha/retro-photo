@@ -1,10 +1,7 @@
-"use client"
+"use client";
 
-import * as React from "react"
-
-import { UserSubscriptionPlan } from "types"
-import { cn, formatDate } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { Icons } from "@/components/icons";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,14 +9,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { toast } from "@/components/ui/use-toast"
-import { Icons } from "@/components/icons"
+} from "@/components/ui/card";
+import { toast } from "@/components/ui/use-toast";
+import { cn, formatDate } from "@/lib/utils";
+import { Loader } from "lucide-react";
+import * as React from "react";
+import { UserSubscriptionPlan } from "types";
 
 interface BillingFormProps extends React.HTMLAttributes<HTMLFormElement> {
   subscriptionPlan: UserSubscriptionPlan & {
-    isCanceled: boolean
-  }
+    isCanceled: boolean;
+  };
 }
 
 export function BillingForm({
@@ -27,35 +27,35 @@ export function BillingForm({
   className,
   ...props
 }: BillingFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-  async function onSubmit(event) {
-    event.preventDefault()
-    setIsLoading(!isLoading)
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsLoading(!isLoading);
 
     // Get a Stripe session URL.
-    const response = await fetch("/api/users/stripe")
+    const response = await fetch("/api/users/stripe");
 
     if (!response?.ok) {
       return toast({
         title: "Something went wrong.",
         description: "Please refresh the page and try again.",
         variant: "destructive",
-      })
+      });
     }
 
     // Redirect to the Stripe session.
     // This could be a checkout page for initial upgrade.
     // Or portal to manage existing subscription.
-    const session = await response.json()
+    const session = await response.json();
     if (session) {
-      window.location.href = session.url
+      window.location.href = session.url;
     }
   }
 
   return (
     <form className={cn(className)} onSubmit={onSubmit} {...props}>
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle>Subscription Plan</CardTitle>
           <CardDescription>
@@ -84,7 +84,36 @@ export function BillingForm({
             </p>
           ) : null}
         </CardFooter>
+      </Card> */}
+      {/* A card to get some image generation balance */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Image Generation Balance</CardTitle>
+          <CardDescription></CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>
+            You can generate images with your balance. Once you run out, you
+            will need to top up your balance.
+          </p>
+        </CardContent>
+        <CardFooter className="flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0">
+          <button
+            type="submit"
+            className={cn(buttonVariants())}
+            disabled={isLoading}
+          >
+            {isLoading && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Get More Images
+          </button>
+          {/* <p className="rounded-full text-xs font-medium">
+            Your balance will reset on{" "}
+            {formatDate(subscriptionPlan.stripeCurrentPeriodEnd)}.
+          </p> */}
+        </CardFooter>
       </Card>
     </form>
-  )
+  );
 }

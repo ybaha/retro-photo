@@ -1,26 +1,26 @@
-import { cookies } from "next/headers"
-import Link from "next/link"
-import { createClient } from "@/utils/supabase/server"
+import { cookies } from "next/headers";
+import Link from "next/link";
+import { createClient } from "@/utils/supabase/server";
 
-import { marketingConfig } from "@/config/marketing"
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { MainNav } from "@/components/main-nav"
-import { SiteFooter } from "@/components/site-footer"
+import { marketingConfig } from "@/config/marketing";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { MainNav } from "@/components/main-nav";
+import { SiteFooter } from "@/components/site-footer";
 
 interface MarketingLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export default async function MarketingLayout({
   children,
 }: MarketingLayoutProps) {
-  const cs = cookies()
-  const supabase = createClient(cs)
+  const cs = cookies();
+  const supabase = createClient(cs);
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -55,5 +55,5 @@ export default async function MarketingLayout({
       <main className="flex-1">{children}</main>
       <SiteFooter />
     </div>
-  )
+  );
 }

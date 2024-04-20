@@ -1,20 +1,19 @@
-import { redirect } from "next/navigation"
-
-import { getCurrentUser } from "@/lib/session"
-import { DashboardHeader } from "@/components/header"
-import { DashboardShell } from "@/components/shell"
-import { UserNameForm } from "@/components/user-name-form"
+import { DashboardHeader } from "@/components/header";
+import { DashboardShell } from "@/components/shell";
+import { UserSettingsForm } from "@/components/user-settings-form";
+import { getCurrentUser } from "@/lib/session";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Settings",
   description: "Manage account and website settings.",
-}
+};
 
 export default async function SettingsPage() {
-  const user = await getCurrentUser(true)
+  const user = await getCurrentUser(true);
 
   if (!user.id) {
-    redirect("/login")
+    redirect("/login");
   }
 
   return (
@@ -23,14 +22,15 @@ export default async function SettingsPage() {
         heading="Settings"
         text="Manage account and website settings."
       />
-      <div className="grid gap-10">
-        <UserNameForm
+      <div className="">
+        <UserSettingsForm
           user={{
             id: user.id,
-            name: user.profile?.full_name || "",
+            full_name: user.profile?.full_name || "",
+            email: user.email || "",
           }}
         />
       </div>
     </DashboardShell>
-  )
+  );
 }

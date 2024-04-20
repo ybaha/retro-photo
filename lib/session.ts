@@ -1,27 +1,29 @@
-import { cookies } from "next/headers"
-import { createClient } from "@/utils/supabase/server"
+import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
 
 export async function getCurrentUser(includeProfile = false) {
-  const cookieStore = cookies()
+  "use server";
+
+  const cookieStore = cookies();
   try {
-    const supabase = createClient(cookieStore)
+    const supabase = createClient(cookieStore);
     const {
       data: { user },
-    } = await supabase.auth.getUser()
+    } = await supabase.auth.getUser();
 
     if (includeProfile && user?.id) {
       const { data: profile } = await supabase
         .from("profiles")
         .select()
         .eq("id", user?.id)
-        .single()
+        .single();
 
-      return { ...user, profile }
+      return { ...user, profile };
     }
 
-    return { ...user, profile: null }
+    return { ...user, profile: null };
   } catch (error) {
-    console.error(error)
-    throw new Error("An error occurred while fetching the user.")
+    console.error(error);
+    throw new Error("An error occurred while fetching the user.");
   }
 }

@@ -1,19 +1,23 @@
-import * as React from "react"
-import Link from "next/link"
-
-import { MainNavItem } from "types"
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import { useLockBody } from "@/hooks/use-lock-body"
-import { Icons } from "@/components/icons"
+import { Icons } from "@/components/icons";
+import { siteConfig } from "@/config/site";
+import { useLockBody } from "@/hooks/use-lock-body";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import * as React from "react";
+import { MainNavItem } from "types";
 
 interface MobileNavProps {
-  items: MainNavItem[]
-  children?: React.ReactNode
+  items: MainNavItem[];
+  children?: React.ReactNode;
+  setShowMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function MobileNav({ items, children }: MobileNavProps) {
-  useLockBody()
+export function MobileNav({
+  items,
+  children,
+  setShowMobileMenu,
+}: MobileNavProps) {
+  useLockBody();
 
   return (
     <div
@@ -35,6 +39,7 @@ export function MobileNav({ items, children }: MobileNavProps) {
                 "flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline",
                 item.disabled && "cursor-not-allowed opacity-60"
               )}
+              onClick={() => setShowMobileMenu(false)}
             >
               {item.title}
             </Link>
@@ -43,5 +48,5 @@ export function MobileNav({ items, children }: MobileNavProps) {
         {children}
       </div>
     </div>
-  )
+  );
 }

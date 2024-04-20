@@ -1,28 +1,27 @@
-import { cookies } from "next/headers"
-import { createClient } from "@/utils/supabase/server"
-import { z } from "zod"
+import { proPlan } from "@/config/subscriptions";
+import { stripe } from "@/lib/stripe";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { absoluteUrl } from "@/lib/utils";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
+import { z } from "zod";
 
-import { proPlan } from "@/config/subscriptions"
-import { stripe } from "@/lib/stripe"
-import { getUserSubscriptionPlan } from "@/lib/subscription"
-import { absoluteUrl } from "@/lib/utils"
-
-const billingUrl = absoluteUrl("/dashboard/billing")
+const billingUrl = absoluteUrl("/dashboard/billing");
 
 export async function GET(req: Request) {
   try {
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
+    const cookieStore = cookies();
+    const supabase = createClient(cookieStore);
 
     const {
       data: { user },
-    } = await supabase.auth.getUser()
+    } = await supabase.auth.getUser();
 
     if (!user || !user.email) {
-      return new Response(null, { status: 403 })
+      return new Response(null, { status: 403 });
     }
 
-    const subscriptionPlan = await getUserSubscriptionPlan(user.id)
+    const subscriptionPlan = await getUserSubscriptionPlan(user.id);
 
     // The user is on the pro plan.
     // Create a portal session to manage subscription.
@@ -30,11 +29,11 @@ export async function GET(req: Request) {
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: subscriptionPlan.stripeCustomerId,
         return_url: billingUrl,
-      })
+      });
 
-      return new Response(JSON.stringify({ url: stripeSession.url }))
+      return new Response(JSON.stringify({ url: stripeSession.url }));
     }
-    console.log({ user, subscriptionPlan })
+    console.log({ user, subscriptionPlan });
     // The user is on the free plan.
     // Create a checkout session to upgrade.
     const stripeSession = await stripe.checkout.sessions.create({
@@ -53,15 +52,15 @@ export async function GET(req: Request) {
       metadata: {
         userId: user.id,
       },
-    })
+    });
 
-    return new Response(JSON.stringify({ url: stripeSession.url }))
-  } catch (error) {
-    console.log(error.message)
+    return new Response(JSON.stringify({ url: stripeSession.url }));
+  } catch (error: any) {
+    console.log(error.message);
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
+      return new Response(JSON.stringify(error.issues), { status: 422 });
     }
 
-    return new Response(null, { status: 500 })
+    return new Response(null, { status: 500 });
   }
 }

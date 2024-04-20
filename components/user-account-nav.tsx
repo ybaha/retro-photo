@@ -1,8 +1,6 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { User } from "next-auth"
-import { signOut } from "next-auth/react"
+import Link from "next/link";
 
 import {
   DropdownMenu,
@@ -10,11 +8,18 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { UserAvatar } from "@/components/user-avatar"
+} from "@/components/ui/dropdown-menu";
+import { UserAvatar } from "@/components/user-avatar";
+import { supabase } from "@/utils/supabase/client";
+import { redirect } from "next/navigation";
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Pick<User, "name" | "image" | "email">
+  user: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+    balance?: number | null;
+  };
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
@@ -30,6 +35,11 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none">
             {user.name && <p className="font-medium">{user.name}</p>}
+            {user.name && (
+              <p className="w-[200px] pt-1 truncate text-sm text-muted-foreground">
+                Balance: {user.balance}
+              </p>
+            )}
             {user.email && (
               <p className="w-[200px] truncate text-sm text-muted-foreground">
                 {user.email}
@@ -50,16 +60,15 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer"
-          onSelect={(event) => {
-            event.preventDefault()
-            signOut({
-              callbackUrl: `${window.location.origin}/login`,
-            })
+          onSelect={async (event) => {
+            event.preventDefault();
+            await supabase.auth.signOut();
+            redirect("/");
           }}
         >
           Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

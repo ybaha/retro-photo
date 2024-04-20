@@ -17,11 +17,17 @@ import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { supabase } from "@/utils/supabase/client";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
+  isRegister?: boolean;
+}
 
 type FormData = z.infer<typeof userAuthSchema>;
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserAuthForm({
+  className,
+  isRegister,
+  ...props
+}: UserAuthFormProps) {
   const {
     register,
     handleSubmit,
@@ -35,14 +41,21 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
+    let error = null;
 
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.signInWithPassword({
-      email: data.email,
-      password: data.password,
-    });
+    if (isRegister) {
+      const { error: err } = await supabase.auth.signUp({
+        email: data?.email,
+        password: data?.password,
+      });
+      error = err;
+    } else {
+      const { error: err } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
+      error = err;
+    }
 
     setIsLoading(false);
 
