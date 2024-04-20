@@ -7,6 +7,8 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import sharp from "sharp";
 
+export const maxDuration = 30;
+
 export async function POST(req: any, res: NextApiResponse) {
   console.log("post");
 

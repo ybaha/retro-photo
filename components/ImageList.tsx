@@ -174,7 +174,7 @@ const ImageSheet = ({ image }: { image: Tables<"images"> }) => {
       <SheetTrigger asChild>
         <Button variant="outline">Details</Button>
       </SheetTrigger>
-      <SheetContent className="w-[86%] sm:w-2/5">
+      <SheetContent className="w-[86%] sm:w-2/5 overflow-y-scroll h-screen">
         <div className="grid gap-4 py-4">
           {isLoading ? (
             <div className="w-full h-[calc(100vh/2)] object-cover border border-border rounded-md flex items-center justify-center">
