@@ -73,7 +73,10 @@ const processImage = async (file: File) => {
     throw new Error("Insufficient balance2");
   }
 
-  const callbackURL = `https://heavy-donuts-guess.loca.lt/webhooks/replicate`;
+  const callbackURL =
+    process.env.NODE_ENV === "production"
+      ? "https://retro-photo.vercel.app/webhooks/replicate"
+      : `https://heavy-donuts-guess.loca.lt/webhooks/replicate`;
 
   // describe image first
 
