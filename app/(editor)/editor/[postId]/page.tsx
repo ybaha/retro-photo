@@ -1,7 +1,6 @@
-import { notFound, redirect } from "next/navigation";
-
-import { getCurrentUser } from "@/lib/session";
 import { Editor } from "@/components/editor";
+import { getCurrentUser } from "@/lib/session";
+import { notFound, redirect } from "next/navigation";
 
 interface EditorPageProps {
   params: { postId: string };
@@ -15,7 +14,17 @@ export default async function EditorPage({ params }: EditorPageProps) {
   }
 
   // const post = await getPostForUser(params.postId, user.id)
-  const post = {} as Post;
+  const post: {
+    id: string;
+    title: string;
+    content: string;
+    published: boolean;
+  } = {
+    id: "1",
+    title: "Post",
+    content: "This is a post.",
+    published: true,
+  };
 
   if (!post) {
     notFound();

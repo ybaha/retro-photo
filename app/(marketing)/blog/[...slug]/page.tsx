@@ -1,25 +1,22 @@
-import { notFound } from "next/navigation"
-
-import { Mdx } from "@/components/mdx-components"
-
-import "@/styles/mdx.css"
-import { Metadata } from "next"
-import Image from "next/image"
-import Link from "next/link"
-
-import { env } from "@/env.mjs"
-import { absoluteUrl, cn, formatDate } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
+import { Mdx } from "@/components/mdx-components";
+import { notFound } from "next/navigation";
+import "@/styles/mdx.css";
+import { Icons } from "@/components/icons";
+import { buttonVariants } from "@/components/ui/button";
+import { env } from "@/env.mjs";
+import { absoluteUrl, cn, formatDate } from "@/lib/utils";
+import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
 interface PostPageProps {
   params: {
-    slug: string[]
-  }
+    slug: string[];
+  };
 }
 
-async function getPostFromParams(params) {
-  const slug = params?.slug?.join("/")
+async function getPostFromParams(params: PostPageProps["params"]) {
+  const slug = params?.slug?.join("/");
   const post = {
     title: "Post",
     description: "This is a post.",
@@ -27,30 +24,30 @@ async function getPostFromParams(params) {
     body: {
       code: ``,
     },
-  }
+  };
 
   if (!post) {
-    null
+    null;
   }
 
-  return post
+  return post;
 }
 
 export async function generateMetadata({
   params,
 }: PostPageProps): Promise<Metadata> {
-  const post = await getPostFromParams(params)
+  const post = await getPostFromParams(params);
 
   if (!post) {
-    return {}
+    return {};
   }
 
-  const url = env.NEXT_PUBLIC_APP_URL
+  const url = env.NEXT_PUBLIC_APP_URL;
 
-  const ogUrl = new URL(`${url}/api/og`)
-  ogUrl.searchParams.set("heading", post.title)
-  ogUrl.searchParams.set("type", "Blog Post")
-  ogUrl.searchParams.set("mode", "dark")
+  const ogUrl = new URL(`${url}/api/og`);
+  ogUrl.searchParams.set("heading", post.title);
+  ogUrl.searchParams.set("type", "Blog Post");
+  ogUrl.searchParams.set("mode", "dark");
 
   return {
     title: post.title,
@@ -76,13 +73,13 @@ export async function generateMetadata({
       description: post.description,
       images: [ogUrl.toString()],
     },
-  }
+  };
 }
 
 export async function generateStaticParams(): Promise<
   PostPageProps["params"][]
 > {
-  return []
+  return [];
 }
 
 export default async function PostPage({ params }: PostPageProps) {
@@ -95,10 +92,10 @@ export default async function PostPage({ params }: PostPageProps) {
     },
     date: new Date().toISOString(),
     image: "/images/blog/default.jpg",
-  }
+  };
 
   if (!post) {
-    notFound()
+    notFound();
   }
 
   const authors = [
@@ -108,7 +105,7 @@ export default async function PostPage({ params }: PostPageProps) {
       avatar: "/images/avatar.jpg",
       twitter: "author",
     },
-  ]
+  ];
 
   return (
     <article className="container relative max-w-3xl py-6 lg:py-10">
@@ -181,5 +178,5 @@ export default async function PostPage({ params }: PostPageProps) {
         </Link>
       </div>
     </article>
-  )
+  );
 }

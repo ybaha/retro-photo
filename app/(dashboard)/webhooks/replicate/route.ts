@@ -144,13 +144,3 @@ export async function POST(req: any, res: NextApiResponse) {
     status: 200,
   });
 }
-
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
-  const result = {
-    message: "working",
-  };
-
-  return NextResponse.json(result, {
-    status: 200,
-  });
-}

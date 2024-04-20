@@ -1,34 +1,49 @@
-import Link from "next/link"
-import { notFound } from "next/navigation"
-
-import { getTableOfContents } from "@/lib/toc"
-import { Icons } from "@/components/icons"
-import { Mdx } from "@/components/mdx-components"
-import { DocsPageHeader } from "@/components/page-header"
-import { DashboardTableOfContents } from "@/components/toc"
-
-import "@/styles/mdx.css"
-import { Metadata } from "next"
-
-import { env } from "@/env.mjs"
-import { absoluteUrl, cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { Icons } from "@/components/icons";
+import { Mdx } from "@/components/mdx-components";
+import { DocsPageHeader } from "@/components/page-header";
+import { DashboardTableOfContents } from "@/components/toc";
+import { getTableOfContents } from "@/lib/toc";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import "@/styles/mdx.css";
+import { buttonVariants } from "@/components/ui/button";
+import { env } from "@/env.mjs";
+import { absoluteUrl, cn } from "@/lib/utils";
+import { Metadata } from "next";
 
 interface GuidePageProps {
   params: {
-    slug: string[]
-  }
+    slug: string[];
+  };
 }
 
-async function getGuideFromParams(params) {
-  const slug = params?.slug?.join("/")
-  const guide = []
+async function getGuideFromParams(params: GuidePageProps["params"]) {
+  const slug = params?.slug?.join("/");
+  const guide: {
+    title: string;
+    description: string;
+    slug: string;
+    body: {
+      code: string;
+      raw: string;
+    };
+    date: string;
+  } = {
+    title: "Guide",
+    description: "This is a guide.",
+    slug: "guide",
+    body: {
+      code: ``,
+      raw: ``,
+    },
+    date: new Date().toISOString(),
+  };
 
   if (!guide) {
-    null
+    null;
   }
 
-  return guide
+  return guide;
 }
 
 export async function generateMetadata({
@@ -42,18 +57,18 @@ export async function generateMetadata({
       code: ``,
     },
     date: new Date(),
-  }
+  };
 
   if (!guide) {
-    return {}
+    return {};
   }
 
-  const url = env.NEXT_PUBLIC_APP_URL
+  const url = env.NEXT_PUBLIC_APP_URL;
 
-  const ogUrl = new URL(`${url}/api/og`)
-  ogUrl.searchParams.set("heading", guide.title)
-  ogUrl.searchParams.set("type", "Guide")
-  ogUrl.searchParams.set("mode", "dark")
+  const ogUrl = new URL(`${url}/api/og`);
+  ogUrl.searchParams.set("heading", guide.title);
+  ogUrl.searchParams.set("type", "Guide");
+  ogUrl.searchParams.set("mode", "dark");
 
   return {
     title: guide.title,
@@ -78,13 +93,13 @@ export async function generateMetadata({
       description: guide.description,
       images: [ogUrl.toString()],
     },
-  }
+  };
 }
 
 export async function generateStaticParams(): Promise<
   GuidePageProps["params"][]
 > {
-  return []
+  return [];
 }
 
 export default async function GuidePage({ params }: GuidePageProps) {
@@ -97,13 +112,13 @@ export default async function GuidePage({ params }: GuidePageProps) {
       raw: ``,
     },
     date: new Date().toISOString(),
-  }
+  };
 
   if (!guide) {
-    notFound()
+    notFound();
   }
 
-  const toc = await getTableOfContents(guide.body.raw)
+  const toc = await getTableOfContents(guide.body.raw);
 
   return (
     <main className="relative py-6 lg:grid lg:grid-cols-[1fr_300px] lg:gap-10 lg:py-10 xl:gap-20">
@@ -127,5 +142,5 @@ export default async function GuidePage({ params }: GuidePageProps) {
         </div>
       </div>
     </main>
-  )
+  );
 }

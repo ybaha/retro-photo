@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import Dropzone from "./ui/dropzone";
-import { Label } from "./ui/label";
 import { Button } from "./ui/button";
-import { Sidebar, Trash } from "lucide-react";
-import { HexColorPicker } from "react-colorful";
-import useClickOutside from "@/hooks/use-click-outside";
+import Dropzone from "./ui/dropzone";
 import { Input } from "./ui/input";
-import { cn } from "@/lib/utils";
+import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import useClickOutside from "@/hooks/use-click-outside";
+import { cn } from "@/lib/utils";
 import { Tables } from "@/types/supabase-types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { set } from "date-fns";
+import { Sidebar, Trash } from "lucide-react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { HexColorPicker } from "react-colorful";
+import { useForm } from "react-hook-form";
 
 const colors = [
   "bg-red-500",
@@ -212,18 +212,7 @@ const ImageUpload = ({
             </div>
           </div>
         ) : (
-          <Dropzone
-            files={files}
-            // @ts-ignore
-            setFiles={(files: File[]) => {
-              setFiles(files);
-              setLogoUrl(URL.createObjectURL(files[0]!));
-              setTheme((prev) => ({
-                ...(prev || ({} as Tables<"themes">)),
-                logo: URL.createObjectURL(files[0]!),
-              }));
-            }}
-          />
+          <Dropzone />
         )}
       </div>
     </>

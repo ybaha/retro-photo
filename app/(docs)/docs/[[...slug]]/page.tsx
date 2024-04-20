@@ -1,44 +1,18 @@
-import { notFound } from "next/navigation"
-
-import { getTableOfContents } from "@/lib/toc"
-import { Mdx } from "@/components/mdx-components"
-import { DocsPageHeader } from "@/components/page-header"
-import { DocsPager } from "@/components/pager"
-import { DashboardTableOfContents } from "@/components/toc"
-
-import "@/styles/mdx.css"
-import { Metadata } from "next"
-
-import { env } from "@/env.mjs"
-import { absoluteUrl } from "@/lib/utils"
+import { Mdx } from "@/components/mdx-components";
+import { DocsPageHeader } from "@/components/page-header";
+import { DocsPager } from "@/components/pager";
+import { DashboardTableOfContents } from "@/components/toc";
+import { getTableOfContents } from "@/lib/toc";
+import { notFound } from "next/navigation";
+import "@/styles/mdx.css";
+import { env } from "@/env.mjs";
+import { absoluteUrl } from "@/lib/utils";
+import { Metadata } from "next";
 
 interface DocPageProps {
   params: {
-    slug: string[]
-  }
-}
-
-async function getDocFromParams(params) {
-  const slug = params.slug?.join("/") || ""
-  const allDocs = [
-    {
-      title: "Docs",
-      description: "This is a doc.",
-      slug: "docs",
-      slugAsParams: "docs",
-      body: {
-        code: ``,
-        raw: ``,
-      },
-    },
-  ]
-  const doc = allDocs
-
-  if (!doc) {
-    null
-  }
-
-  return doc
+    slug: string[];
+  };
 }
 
 export async function generateMetadata({
@@ -51,18 +25,18 @@ export async function generateMetadata({
     body: {
       code: ``,
     },
-  }
+  };
 
   if (!doc) {
-    return {}
+    return {};
   }
 
-  const url = env.NEXT_PUBLIC_APP_URL
+  const url = env.NEXT_PUBLIC_APP_URL;
 
-  const ogUrl = new URL(`${url}/api/og`)
-  ogUrl.searchParams.set("heading", doc.description ?? doc.title)
-  ogUrl.searchParams.set("type", "Documentation")
-  ogUrl.searchParams.set("mode", "dark")
+  const ogUrl = new URL(`${url}/api/og`);
+  ogUrl.searchParams.set("heading", doc.description ?? doc.title);
+  ogUrl.searchParams.set("type", "Documentation");
+  ogUrl.searchParams.set("mode", "dark");
 
   return {
     title: doc.title,
@@ -87,13 +61,13 @@ export async function generateMetadata({
       description: doc.description,
       images: [ogUrl.toString()],
     },
-  }
+  };
 }
 
 export async function generateStaticParams(): Promise<
   DocPageProps["params"][]
 > {
-  return []
+  return [];
 }
 
 export default async function DocPage({ params }: DocPageProps) {
@@ -105,13 +79,13 @@ export default async function DocPage({ params }: DocPageProps) {
       code: ``,
       raw: ``,
     },
-  }
+  };
 
   if (!doc) {
-    notFound()
+    notFound();
   }
 
-  const toc = await getTableOfContents(doc.body.raw)
+  const toc = await getTableOfContents(doc.body.raw);
 
   return (
     <main className="relative py-6 lg:gap-10 lg:py-10 xl:grid xl:grid-cols-[1fr_300px]">
@@ -127,5 +101,5 @@ export default async function DocPage({ params }: DocPageProps) {
         </div>
       </div>
     </main>
-  )
+  );
 }
