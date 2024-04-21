@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Forgot Password",
@@ -39,7 +40,9 @@ export default function ResetPassword() {
             Enter your new password
           </p>
         </div>
-        <ResetPasswordForm />
+        <Suspense>
+          <ResetPasswordForm />
+        </Suspense>
         <p className="px-8 text-center text-sm text-muted-foreground flex flex-col gap-4 justify-between w-full">
           <Link
             href="/register"

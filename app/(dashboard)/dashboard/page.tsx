@@ -43,16 +43,17 @@ export default async function CreateLink() {
         </form>
         {/* list of images */}
         <ImageList imagesFromServer={images} profile={user.profile} />
-        {/* <Alert>
-          <AlertTitle>Heads up!</AlertTitle>
-          <AlertDescription>
-            You need to be subscribed to create a link.
-            <a href="/dashboard/billing">Subscribe now</a>.
-          </AlertDescription>
-          <form className="mt-8 gap-4 flex items-center">
-            <span>Balance: {user.profile?.balance}</span>
-          </form>
-        </Alert> */}
+        {!user.profile?.is_paid_user && (
+          <Alert>
+            <AlertTitle>Heads up!</AlertTitle>
+            <AlertDescription>
+              Since you haven't bought any image generation credits, you can
+              only generate {user.profile?.balance} image
+              {user.profile?.balance! > 1 ? "s" : ""}. Once you buy credits,
+              your images won't have any watermark
+            </AlertDescription>
+          </Alert>
+        )}
       </div>
     </DashboardShell>
   );
