@@ -67,7 +67,7 @@ export function UserAuthForm({
 
     // TODO:
 
-    router.push("/dashboard");
+    router.push("/dashboard?signin=true");
 
     toast({
       title: "Welcome back!",

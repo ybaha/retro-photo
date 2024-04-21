@@ -20,17 +20,6 @@ export default async function BillingPage() {
     redirect("/login");
   }
 
-  const subscriptionPlan = await getUserSubscriptionPlan(user.id);
-
-  // If user has a pro plan, check cancel status on Stripe.
-  let isCanceled = false;
-  if (subscriptionPlan.isPro && subscriptionPlan.stripeSubscriptionId) {
-    const stripePlan = await stripe.subscriptions.retrieve(
-      subscriptionPlan.stripeSubscriptionId
-    );
-    isCanceled = stripePlan.cancel_at_period_end;
-  }
-
   return (
     <DashboardShell>
       <DashboardHeader
@@ -55,12 +44,7 @@ export default async function BillingPage() {
             .
           </AlertDescription>
         </Alert> */}
-        <BillingForm
-          subscriptionPlan={{
-            ...subscriptionPlan,
-            isCanceled,
-          }}
-        />
+        <BillingForm />
       </div>
     </DashboardShell>
   );

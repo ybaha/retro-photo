@@ -17,17 +17,11 @@ import { Loader } from "lucide-react";
 import * as React from "react";
 import { UserSubscriptionPlan } from "types";
 
-interface BillingFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  subscriptionPlan: UserSubscriptionPlan & {
-    isCanceled: boolean;
-  };
-}
+type BillingFormProps = React.HTMLAttributes<HTMLFormElement> & {
+  subscriptionPlan?: UserSubscriptionPlan;
+};
 
-export function BillingForm({
-  subscriptionPlan,
-  className,
-  ...props
-}: BillingFormProps) {
+export function BillingForm({ className, ...props }: BillingFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   async function onSubmit(type = 3) {
@@ -55,37 +49,6 @@ export function BillingForm({
 
   return (
     <form className={cn(className)} {...props}>
-      {/* <Card>
-        <CardHeader>
-          <CardTitle>Subscription Plan</CardTitle>
-          <CardDescription>
-            You are currently on the <strong>{subscriptionPlan.name}</strong>{" "}
-            plan.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>{subscriptionPlan.description}</CardContent>
-        <CardFooter className="flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0">
-          <button
-            type="submit"
-            className={cn(buttonVariants())}
-            disabled={isLoading}
-          >
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            {subscriptionPlan.isPro ? "Manage Subscription" : "Upgrade to PRO"}
-          </button>
-          {subscriptionPlan.isPro ? (
-            <p className="rounded-full text-xs font-medium">
-              {subscriptionPlan.isCanceled
-                ? "Your plan will be canceled on "
-                : "Your plan renews on "}
-              {formatDate(subscriptionPlan.stripeCurrentPeriodEnd)}.
-            </p>
-          ) : null}
-        </CardFooter>
-      </Card> */}
-      {/* A card to get some image generation balance */}
       <Card>
         <CardHeader>
           <CardTitle>Image Generation Balance</CardTitle>

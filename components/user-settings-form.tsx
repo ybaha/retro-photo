@@ -1,6 +1,6 @@
 "use client";
 
-import { updateUser } from "@/app/(dashboard)/dashboard/create-link/actions";
+import { updateUser } from "@/app/(dashboard)/dashboard/actions";
 import { Icons } from "@/components/icons";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
