@@ -1,15 +1,14 @@
-import Link from "next/link";
-import { supabase } from "@/utils/supabase/client";
-
-import { env } from "@/env.mjs";
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
 import { MainNav } from "@/components/main-nav";
-import { marketingConfig } from "@/config/marketing";
-import { cookies } from "next/headers";
-import { createClient } from "@/utils/supabase/server";
 import { SiteFooter } from "@/components/site-footer";
+import { buttonVariants } from "@/components/ui/button";
+import { marketingConfig } from "@/config/marketing";
+import { siteConfig } from "@/config/site";
+import { env } from "@/env.mjs";
+import { cn } from "@/lib/utils";
+import { supabase } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
+import Link from "next/link";
 
 export default async function IndexPage() {
   const cs = cookies();
@@ -189,7 +188,7 @@ export default async function IndexPage() {
           </div>
           <div className="mx-auto text-center md:max-w-[58rem]">
             <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-              Taxonomy also includes a blog and a full-featured documentation
+              RetroPhoto also includes a blog and a full-featured documentation
               site built using Contentlayer and MDX.
             </p>
           </div>
@@ -200,7 +199,7 @@ export default async function IndexPage() {
               Proudly Open Source
             </h2>
             <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-              Taxonomy is open source and powered by open source software.{" "}
+              RetroPhoto is open source and powered by open source software.{" "}
               <br /> The code is available on{" "}
               <Link
                 href={siteConfig.links.github}

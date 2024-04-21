@@ -1,12 +1,11 @@
-import Link from "next/link"
-
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
+import { Icons } from "@/components/icons";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export const metadata = {
   title: "Pricing",
-}
+};
 
 export default function PricingPage() {
   return (
@@ -60,10 +59,10 @@ export default function PricingPage() {
       </div>
       <div className="mx-auto flex w-full max-w-[58rem] flex-col gap-4">
         <p className="max-w-[85%] leading-normal text-muted-foreground sm:leading-7">
-          Taxonomy is a demo app.{" "}
+          RetroPhoto is a demo app.{" "}
           <strong>You can test the upgrade and won&apos;t be charged.</strong>
         </p>
       </div>
     </section>
-  )
+  );
 }
