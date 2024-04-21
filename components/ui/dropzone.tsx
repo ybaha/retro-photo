@@ -100,6 +100,9 @@ export default function Dropzone({ maxFiles }: { maxFiles?: number }) {
             if (shouldRedirectToBilling) {
               router.push("/dashboard/billing");
               return;
+            } else {
+              const rootProps = getRootProps();
+              if (rootProps.onClick) rootProps.onClick(e);
             }
           }}
           className="flex h-32 w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-input dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
