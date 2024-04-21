@@ -1,6 +1,7 @@
+import { ForgotPasswordForm } from "@/components/forgot-password-form";
 import { Icons } from "@/components/icons";
+import { ResetPasswordForm } from "@/components/reset-password-form";
 import { buttonVariants } from "@/components/ui/button";
-import { UserAuthForm } from "@/components/user-auth-form";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/utils/supabase/server";
 import { Metadata } from "next";
@@ -9,13 +10,11 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Login",
-  description: "Login to your account",
+  title: "Forgot Password",
+  description: "Forgot your password? No worries, we got you covered.",
 };
 
-export default function LoginPage() {
-  const supabase = createClient(cookies());
-
+export default function ResetPassword() {
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <Link
@@ -34,13 +33,13 @@ export default function LoginPage() {
         <div className="flex flex-col space-y-2 text-center">
           <Icons.logo className="mx-auto h-6 w-6" />
           <h1 className="text-2xl font-semibold tracking-tight">
-            Welcome back
+            Reset Password
           </h1>
           <p className="text-sm text-muted-foreground">
-            Enter your email to sign in to your account
+            Enter your new password
           </p>
         </div>
-        <UserAuthForm />
+        <ResetPasswordForm />
         <p className="px-8 text-center text-sm text-muted-foreground flex flex-col gap-4 justify-between w-full">
           <Link
             href="/register"

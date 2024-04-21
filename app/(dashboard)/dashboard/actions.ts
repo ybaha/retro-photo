@@ -1,5 +1,7 @@
 "use server";
 
+import { getCurrentUser } from "@/lib/session";
+import { Tables } from "@/types/supabase-types";
 import { createClient } from "@/utils/supabase/server";
 import createServiceRoleClient from "@/utils/supabase/service";
 import { revalidatePath } from "next/cache";
@@ -7,16 +9,14 @@ import { cookies } from "next/headers";
 import Replicate from "replicate";
 import { v4 as uuid } from "uuid";
 
-const processImage = async (file: File) => {
+const processImage = async (params: {
+  file: File;
+  user: Tables<"profiles">;
+}) => {
+  const { file, user } = params;
   const fileName = uuid();
 
   const supabase = createServiceRoleClient();
-
-  const supabaseAuth = createClient(cookies());
-
-  const {
-    data: { user },
-  } = await supabaseAuth.auth.getUser();
 
   const replicate = new Replicate({
     auth: process.env.REPLICATE_API_KEY,
@@ -104,7 +104,7 @@ const processImage = async (file: File) => {
     .from("images")
     .insert({
       status: "pending_from_replicate",
-      user_id: user.id,
+      profile_id: user.id,
       unprocessed_url: publicUrl,
       prediction_id: prediction.id,
       description: imageDesciption,
@@ -119,15 +119,20 @@ export const sendReplicateServerRequest = async (formData: FormData[]) => {
 
   const files = formData.map((fd) => fd.get("file") as File);
 
-  // await Promise.all(files.map(processImage));
+  const user = await getCurrentUser(true);
 
-  for (const file of files) {
-    try {
-      await processImage(file);
-    } catch (error) {
-      console.error(error);
-    }
+  if (!user || !user.profile) {
+    throw new Error("User not found");
   }
+
+  await Promise.all(
+    files.map((file) =>
+      processImage({
+        file,
+        user: user.profile as Tables<"profiles">,
+      })
+    )
+  );
 
   revalidatePath("/dashboard");
 

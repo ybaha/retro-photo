@@ -26,7 +26,7 @@ export default async function CreateLink() {
   const { data: images } = await supabase
     .from("images")
     .select("*")
-    .eq("user_id", user.id)
+    .eq("profile_id", user.id)
     .neq("status", "deleted")
     .neq("status", "error")
     .order("created_at", { ascending: false });
@@ -39,11 +39,11 @@ export default async function CreateLink() {
       />
       <div className="grid gap-8" suppressHydrationWarning>
         <form>
-          <Dropzone />
+          <Dropzone maxFiles={user.profile?.balance} />
         </form>
         {/* list of images */}
         <ImageList imagesFromServer={images} profile={user.profile} />
-        <Alert>
+        {/* <Alert>
           <AlertTitle>Heads up!</AlertTitle>
           <AlertDescription>
             You need to be subscribed to create a link.
@@ -52,7 +52,7 @@ export default async function CreateLink() {
           <form className="mt-8 gap-4 flex items-center">
             <span>Balance: {user.profile?.balance}</span>
           </form>
-        </Alert>
+        </Alert> */}
       </div>
     </DashboardShell>
   );

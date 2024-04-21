@@ -1,6 +1,6 @@
+import { ForgotPasswordForm } from "@/components/forgot-password-form";
 import { Icons } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
-import { UserAuthForm } from "@/components/user-auth-form";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/utils/supabase/server";
 import { Metadata } from "next";
@@ -9,11 +9,11 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Login",
-  description: "Login to your account",
+  title: "Forgot Password",
+  description: "Forgot your password? No worries, we got you covered.",
 };
 
-export default function LoginPage() {
+export default function ForgotPassword() {
   const supabase = createClient(cookies());
 
   return (
@@ -34,27 +34,14 @@ export default function LoginPage() {
         <div className="flex flex-col space-y-2 text-center">
           <Icons.logo className="mx-auto h-6 w-6" />
           <h1 className="text-2xl font-semibold tracking-tight">
-            Welcome back
+            Forgot Password
           </h1>
           <p className="text-sm text-muted-foreground">
-            Enter your email to sign in to your account
+            Enter your email to reset your password
           </p>
         </div>
-        <UserAuthForm />
-        <p className="px-8 text-center text-sm text-muted-foreground flex flex-col gap-4 justify-between w-full">
-          <Link
-            href="/register"
-            className="hover:text-brand underline underline-offset-4"
-          >
-            Sign Up
-          </Link>
-          <Link
-            href="/forgot-password"
-            className="hover:text-brand underline underline-offset-4"
-          >
-            Forgot password
-          </Link>
-        </p>
+        <ForgotPasswordForm />
+        <p className="px-8 text-center text-sm text-muted-foreground"></p>
       </div>
     </div>
   );

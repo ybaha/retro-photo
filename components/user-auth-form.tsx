@@ -5,9 +5,9 @@ import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
+import { register as registerFn, signIn } from "@/lib/session";
 import { cn } from "@/lib/utils";
 import { userAuthSchema } from "@/lib/validations/auth";
-import { supabase } from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import * as React from "react";
@@ -23,6 +23,7 @@ type FormData = z.infer<typeof userAuthSchema>;
 export function UserAuthForm({
   className,
   isRegister,
+
   ...props
 }: UserAuthFormProps) {
   const {
@@ -36,49 +37,43 @@ export function UserAuthForm({
 
   const router = useRouter();
 
-  async function onSubmit(data: FormData) {
-    setIsLoading(true);
-    let error = null;
-
-    if (isRegister) {
-      const { error: err } = await supabase.auth.signUp({
-        email: data?.email,
-        password: data?.password,
-      });
-      error = err;
-    } else {
-      const { error: err } = await supabase.auth.signInWithPassword({
-        email: data.email,
-        password: data.password,
-      });
-      error = err;
-    }
-
-    setIsLoading(false);
-
-    if (error) {
-      toast({
-        title: "Something went wrong.",
-        description: "Your sign in request failed. Please try again.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // TODO:
-
-    router.push("/dashboard?signin=true");
-
-    toast({
-      title: "Welcome back!",
-      description: "You have successfully signed in.",
-    });
-    return;
-  }
-
   return (
     <div className={cn("grid gap-6", className)} {...props}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit(async (data, e) => {
+          e?.preventDefault();
+          setIsLoading(true);
+
+          if (isRegister) {
+            const error = await registerFn({
+              email: data.email,
+              password: data.password,
+            });
+
+            if (error) {
+              toast({
+                title: "Error",
+                description: error,
+                variant: "destructive",
+              });
+            }
+          } else {
+            const error = await signIn({
+              email: data.email,
+              password: data.password,
+            });
+            if (error) {
+              toast({
+                title: "Error",
+                description: error,
+                variant: "destructive",
+              });
+            }
+          }
+
+          setIsLoading(false);
+        })}
+      >
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">

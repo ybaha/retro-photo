@@ -80,20 +80,20 @@ export function BillingForm({ className, ...props }: BillingFormProps) {
           {
             title: "3 Image Generation Tokens",
             price: "50TL",
-            features: ["Unlimited users", "Unlimited bandwidth"],
+            features: ["No watermark", "No recurring fees"],
             type: 3,
           },
           {
             title: "10 Image Generation Tokens",
             price: "150TL",
-            features: ["Unlimited users", "Unlimited bandwidth"],
+            features: ["No watermark", "No recurring fees"],
             isPopular: true,
             type: 10,
           },
           {
             title: "100 Image Generation Tokens",
             price: "500TL",
-            features: ["Unlimited users", "Unlimited bandwidth"],
+            features: ["No watermark", "No recurring fees"],
             type: 100,
           },
         ]}

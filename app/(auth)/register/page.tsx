@@ -2,7 +2,10 @@ import { Icons } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { UserAuthForm } from "@/components/user-auth-form";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Create an account",
@@ -10,6 +13,20 @@ export const metadata = {
 };
 
 export default function RegisterPage() {
+  const supabase = createClient(cookies());
+
+  async function onSubmit(data: { email: string; password: string }) {
+    const { error } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (error) {
+      return { error };
+    }
+
+    redirect("/dashboard?signin=true");
+  }
   return (
     <div className="container grid h-screen w-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
       <Link

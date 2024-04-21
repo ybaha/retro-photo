@@ -4,6 +4,7 @@ import { Button } from "./button";
 import { ScrollArea } from "./scroll-area";
 import { sendReplicateServerRequest } from "@/app/(dashboard)/dashboard/actions";
 import { UploadCloud, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
@@ -13,26 +14,28 @@ import { useDropzone } from "react-dropzone";
 //   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
 // };
 
-export default function Dropzone() {
+export default function Dropzone({ maxFiles }: { maxFiles?: number }) {
   const [files, setFiles] = React.useState<File[]>([]);
   const [loading, setLoading] = React.useState(false);
+
+  const router = useRouter();
+
+  const multiple = !!maxFiles && maxFiles > 1;
+  const shouldRedirectToBilling = !maxFiles || maxFiles < 1;
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles(acceptedFiles);
   }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
       "image/png": [],
       "image/jpeg": [],
     },
-    multiple: true,
+    multiple,
+    maxFiles,
   });
-
-  const clientX =
-    typeof document !== "undefined"
-      ? document.getElementById("dashboard-shell")?.clientWidth || 0
-      : 0;
 
   return (
     <>
@@ -91,9 +94,19 @@ export default function Dropzone() {
       ) : (
         <div
           {...getRootProps()}
+          onClick={(e) => {
+            e.preventDefault();
+
+            if (shouldRedirectToBilling) {
+              router.push("/dashboard/billing");
+              return;
+            }
+          }}
           className="flex h-32 w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-input dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
         >
-          <input {...getInputProps()} />
+          {!shouldRedirectToBilling && (
+            <input {...getInputProps()} className="hidden" />
+          )}
           {isDragActive ? (
             <div className="flex w-full flex-col items-center justify-center rounded-md bg-slate-500">
               <p className="mb-4">Drop the files here</p>

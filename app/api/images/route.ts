@@ -25,7 +25,7 @@ export async function GET(req: Request) {
   const { data: images, error } = await supabase
     .from("images")
     .select("*")
-    .eq("user_id", user.id)
+    .eq("profile_id", user.id)
     .neq("status", "deleted")
     .neq("status", "error")
     .order("created_at", { ascending: false });

@@ -19,7 +19,7 @@ type Pricing = {
 export default function Pricing({ withoutHeader, prices }: Pricing) {
   return (
     <div className={cn("bg-background dark:bg-gray-950")}>
-      <div className="container px-4 md:px-6">
+      <div className="">
         {!withoutHeader && (
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -91,7 +91,7 @@ function PricingCard({
       )}
       <h3 className="mt-2 text-xl font-bold">{title}</h3>
       <p className="mt-4 text-4xl font-bold">{price}</p>
-      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">per month</p>
+      {/* <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">per month</p> */}
       <div className="mt-5 space-y-4">
         {features.map((feature) => (
           <div key={feature} className="flex items-center">
@@ -109,7 +109,7 @@ function PricingCard({
           onSubmit(type);
         }}
       >
-        Get started
+        {isLoading ? "Loading..." : "Buy Now"}
       </Button>
     </div>
   );

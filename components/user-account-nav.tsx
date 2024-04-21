@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UserAvatar } from "@/components/user-avatar";
-import { supabase } from "@/utils/supabase/client";
+import { signOut } from "@/lib/session";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
@@ -33,11 +35,9 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none">
             {user.name && <p className="font-medium">{user.name}</p>}
-            {user.name && (
-              <p className="w-[200px] pt-1 truncate text-sm text-muted-foreground">
-                Balance: {user.balance}
-              </p>
-            )}
+            <p className="w-[200px] pt-1 truncate text-sm text-muted-foreground">
+              Balance: {user.balance}
+            </p>
             {user.email && (
               <p className="w-[200px] truncate text-sm text-muted-foreground">
                 {user.email}
@@ -59,10 +59,8 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <DropdownMenuItem
           className="cursor-pointer"
           onSelect={async (event) => {
-            "use server";
             event.preventDefault();
-            await supabase.auth.signOut();
-            redirect("/");
+            await signOut();
           }}
         >
           Sign out

@@ -26,12 +26,11 @@ export default async function DashboardLayout({
           <MainNav items={dashboardConfig.sidebarNav as any} />
 
           <div className="flex items-center gap-4">
-            {user.profile?.balance && user.profile.balance >= 0 && (
-              <div className="items-center text-sm">
-                <span className="mr-2">Balance:</span>
-                <span className="font-bold">{user.profile?.balance}</span>
-              </div>
-            )}
+            <div className="items-center text-sm">
+              <span className="mr-2">Balance:</span>
+              <span className="font-bold">{user.profile?.balance}</span>
+            </div>
+
             <UserAccountNav
               user={{
                 name: user.profile?.full_name,

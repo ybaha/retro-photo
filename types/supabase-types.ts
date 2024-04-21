@@ -16,9 +16,9 @@ export type Database = {
           id: string
           prediction_id: string
           processed_url: string | null
+          profile_id: string
           status: Database["public"]["Enums"]["image_status"]
           unprocessed_url: string | null
-          user_id: string
           with_watermark: boolean | null
         }
         Insert: {
@@ -27,9 +27,9 @@ export type Database = {
           id?: string
           prediction_id: string
           processed_url?: string | null
+          profile_id: string
           status: Database["public"]["Enums"]["image_status"]
           unprocessed_url?: string | null
-          user_id: string
           with_watermark?: boolean | null
         }
         Update: {
@@ -38,15 +38,15 @@ export type Database = {
           id?: string
           prediction_id?: string
           processed_url?: string | null
+          profile_id?: string
           status?: Database["public"]["Enums"]["image_status"]
           unprocessed_url?: string | null
-          user_id?: string
           with_watermark?: boolean | null
         }
         Relationships: [
           {
-            foreignKeyName: "public_images_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "public_images_profile_id_fkey"
+            columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -87,10 +87,10 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
-          balance: number
+          balance?: number
           full_name?: string | null
           id: string
-          is_paid_user?: boolean
+          is_paid_user: boolean
           updated_at?: string | null
           username?: string | null
           website?: string | null
@@ -118,7 +118,7 @@ export type Database = {
       profiles_stripe_info: {
         Row: {
           created_at: string
-          id: string | null
+          id: string
           payment_intent_id: string | null
           product: string | null
           profile_id: string | null
@@ -126,7 +126,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          id?: string | null
+          id?: string
           payment_intent_id?: string | null
           product?: string | null
           profile_id?: string | null
@@ -134,7 +134,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
-          id?: string | null
+          id?: string
           payment_intent_id?: string | null
           product?: string | null
           profile_id?: string | null
@@ -144,86 +144,6 @@ export type Database = {
           {
             foreignKeyName: "public_profiles_stripe_info_profile_id_fkey"
             columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      themes: {
-        Row: {
-          color: string | null
-          company_name: string | null
-          created_at: string
-          description: string | null
-          id: string
-          logo: string | null
-          profile_id: string | null
-          url_id: string | null
-        }
-        Insert: {
-          color?: string | null
-          company_name?: string | null
-          created_at?: string
-          description?: string | null
-          id?: string
-          logo?: string | null
-          profile_id?: string | null
-          url_id?: string | null
-        }
-        Update: {
-          color?: string | null
-          company_name?: string | null
-          created_at?: string
-          description?: string | null
-          id?: string
-          logo?: string | null
-          profile_id?: string | null
-          url_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_themes_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_themes_url_id_fkey"
-            columns: ["url_id"]
-            isOneToOne: false
-            referencedRelation: "urls"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      urls: {
-        Row: {
-          created_at: string
-          creator_id: string | null
-          id: string
-          slug: string | null
-          url: string | null
-        }
-        Insert: {
-          created_at?: string
-          creator_id?: string | null
-          id?: string
-          slug?: string | null
-          url?: string | null
-        }
-        Update: {
-          created_at?: string
-          creator_id?: string | null
-          id?: string
-          slug?: string | null
-          url?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_urls_creator_id_fkey"
-            columns: ["creator_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
