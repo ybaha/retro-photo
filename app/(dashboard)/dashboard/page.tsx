@@ -34,7 +34,7 @@ export default async function CreateLink() {
   return (
     <DashboardShell>
       <DashboardHeader
-        heading="Create Link"
+        heading="Create Images"
         text={`You can create ${user.profile?.balance || 0} more images`}
       />
       <div className="grid gap-8" suppressHydrationWarning>

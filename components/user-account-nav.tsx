@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +9,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { UserAvatar } from "@/components/user-avatar";
 import { supabase } from "@/utils/supabase/client";
-import { redirect } from "next/navigation";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: {
@@ -23,6 +22,7 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
+  const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -63,7 +63,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           onSelect={async (event) => {
             event.preventDefault();
             await supabase.auth.signOut();
-            redirect("/");
+            router.push("/");
           }}
         >
           Sign out

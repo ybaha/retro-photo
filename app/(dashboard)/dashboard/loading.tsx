@@ -6,8 +6,8 @@ import { DashboardShell } from "@/components/shell";
 export default function DashboardLoading() {
   return (
     <DashboardShell>
-      <DashboardHeader heading="Links" text="Create and manage links.">
-        <PostCreateButton />
+      <DashboardHeader heading="Create Images" text="Create and manage images.">
+        {/* <PostCreateButton /> */}
       </DashboardHeader>
       <div className="divide-border-200 divide-y rounded-md border">
         <PostItem.Skeleton />

@@ -83,6 +83,7 @@ export default function Dropzone() {
               setLoading(false);
               setFiles([]);
             }}
+            disabled={loading}
           >
             {loading ? "Uploading..." : "Upload"}
           </Button>

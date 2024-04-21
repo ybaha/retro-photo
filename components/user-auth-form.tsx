@@ -8,9 +8,7 @@ import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { userAuthSchema } from "@/lib/validations/auth";
 import { supabase } from "@/utils/supabase/client";
-import { createClient } from "@/utils/supabase/server";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { cookies } from "next/headers";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -59,21 +57,23 @@ export function UserAuthForm({
     setIsLoading(false);
 
     if (error) {
-      return toast({
+      toast({
         title: "Something went wrong.",
         description: "Your sign in request failed. Please try again.",
         variant: "destructive",
       });
+      return;
     }
 
     // TODO:
 
     router.push("/dashboard");
 
-    return toast({
+    toast({
       title: "Welcome back!",
       description: "You have successfully signed in.",
     });
+    return;
   }
 
   return (
@@ -106,7 +106,7 @@ export function UserAuthForm({
             </Label>
             <Input
               id="password"
-              placeholder="name@example.com"
+              placeholder="Password"
               type="password"
               autoCapitalize="none"
               autoComplete="password"
