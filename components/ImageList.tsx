@@ -19,7 +19,9 @@ import { Enums, Tables } from "@/types/supabase-types";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Download, ExternalLink, Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import ReactCompareImage from "react-compare-image";
 
 const statusMap = {
   pending_from_replicate: "Processing",
@@ -56,8 +58,10 @@ const checkExpired = (params: {
 
 export function ImageList({
   imagesFromServer,
+  profile,
 }: {
   imagesFromServer: Tables<"images">[] | null;
+  profile: Tables<"profiles"> | null;
 }) {
   const [images, setImages] = useState<Tables<"images">[] | null>(
     imagesFromServer
@@ -150,7 +154,7 @@ export function ImageList({
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <ImageSheet image={image} />
+                <ImageSheet image={image} user={profile} />
                 <Button
                   variant="outline"
                   className="px-2"
@@ -169,12 +173,20 @@ export function ImageList({
   );
 }
 
-const ImageSheet = ({ image }: { image: Tables<"images"> }) => {
+const ImageSheet = ({
+  image,
+  user,
+}: {
+  image: Tables<"images">;
+  user: Tables<"profiles"> | null;
+}) => {
   const status = statusMap[image.status];
   const isLoading =
     image.status !== "completed" &&
     image.status !== "error" &&
     image.status !== "deleted";
+
+  const router = useRouter();
 
   return (
     <Sheet>
@@ -184,14 +196,26 @@ const ImageSheet = ({ image }: { image: Tables<"images"> }) => {
       <SheetContent className="w-[86%] sm:w-2/5 overflow-y-scroll h-screen">
         <div className="grid gap-4 py-4">
           {isLoading ? (
-            <div className="w-full h-[calc(100vh/2)] object-cover border border-border rounded-md flex items-center justify-center">
-              <Loader className="animate-spin" />
+            <div className="w-full h-[calc(100vh/2)] object-cover border border-border rounded-md flex items-center justify-center relative">
+              <Loader className="animate-spin absolute inset-0 left-0 right-0 m-auto z-10" />
+              <img
+                src={image.unprocessed_url || ""}
+                alt={"image"}
+                className="w-full h-full object-cover rounded-md"
+              />
+              <div
+                id="overlay"
+                className="absolute inset-0 left-0 right-0 m-auto bg-foreground/25 rounded-md backdrop-blur-lg"
+              />
             </div>
           ) : (
-            <img
-              src={image.processed_url || ""}
-              alt={"image"}
-              className="w-full max-h-[calc(100vh*2/3)] rounded-md object-cover"
+            <ReactCompareImage
+              leftImage={image.unprocessed_url || ""}
+              rightImage={image.processed_url || ""}
+              sliderLineColor="#fff"
+              sliderLineWidth={2}
+              sliderPositionPercentage={0.5}
+              handleSize={40}
             />
           )}
         </div>
@@ -211,8 +235,23 @@ const ImageSheet = ({ image }: { image: Tables<"images"> }) => {
         </SheetHeader>
         <SheetFooter className="w-full">
           <SheetClose className="mt-8 flex flex-col gap-4 w-full">
+            {image.with_watermark && !user?.is_paid_user && (
+              <Button
+                variant="default"
+                className="w-full"
+                onClick={() => {
+                  router.push(`/dashboard/billing`);
+                }}
+              >
+                ✨ Download without watermark ✨
+              </Button>
+            )}
             <Button
-              variant="default"
+              variant={
+                image.with_watermark && !user?.is_paid_user
+                  ? "outline"
+                  : "default"
+              }
               className="w-full"
               onClick={() => {
                 window.open(image.processed_url || "");

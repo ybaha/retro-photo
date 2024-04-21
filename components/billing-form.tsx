@@ -1,5 +1,6 @@
 "use client";
 
+import Pricing from "./prices";
 import { Icons } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -29,12 +30,11 @@ export function BillingForm({
 }: BillingFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function onSubmit(type = 3) {
     setIsLoading(!isLoading);
 
     // Get a Stripe session URL.
-    const response = await fetch("/api/users/stripe");
+    const response = await fetch("/api/users/stripe?type=" + type);
 
     if (!response?.ok) {
       return toast({
@@ -54,7 +54,7 @@ export function BillingForm({
   }
 
   return (
-    <form className={cn(className)} onSubmit={onSubmit} {...props}>
+    <form className={cn(className)} {...props}>
       {/* <Card>
         <CardHeader>
           <CardTitle>Subscription Plan</CardTitle>
@@ -108,12 +108,33 @@ export function BillingForm({
             )}
             Get More Images
           </button>
-          {/* <p className="rounded-full text-xs font-medium">
-            Your balance will reset on{" "}
-            {formatDate(subscriptionPlan.stripeCurrentPeriodEnd)}.
-          </p> */}
         </CardFooter>
       </Card>
+
+      <Pricing
+        withoutHeader
+        prices={[
+          {
+            title: "3 Image Generation Tokens",
+            price: "50TL",
+            features: ["Unlimited users", "Unlimited bandwidth"],
+            type: 3,
+          },
+          {
+            title: "10 Image Generation Tokens",
+            price: "150TL",
+            features: ["Unlimited users", "Unlimited bandwidth"],
+            isPopular: true,
+            type: 10,
+          },
+          {
+            title: "100 Image Generation Tokens",
+            price: "500TL",
+            features: ["Unlimited users", "Unlimited bandwidth"],
+            type: 100,
+          },
+        ]}
+      />
     </form>
   );
 }

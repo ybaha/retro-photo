@@ -19,8 +19,9 @@
     --card: 0 0% 100%;
     --card-foreground: 222.2 47.4% 11.2%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* green */
+    --primary: 227 77% 43%;
+    --primary-foreground: 99 100% 100%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -55,8 +56,11 @@
     --card: 224 71% 4%;
     --card-foreground: 213 31% 91%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
+    /* --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 1.2%; */
+
+    --primary: 227 77% 43%;
+    --primary-foreground: 99 100% 100%;
 
     --secondary: 222.2 47.4% 11.2%;
     --secondary-foreground: 210 40% 98%;

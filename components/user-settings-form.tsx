@@ -19,6 +19,7 @@ import { userNameSchema } from "@/lib/validations/user";
 import { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -63,6 +64,8 @@ export function UserSettingsForm({
     });
 
     setIsSaving(false);
+
+    router.refresh();
 
     toast({
       title: "Profile updated",

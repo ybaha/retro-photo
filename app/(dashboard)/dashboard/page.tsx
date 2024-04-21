@@ -42,7 +42,7 @@ export default async function CreateLink() {
           <Dropzone />
         </form>
         {/* list of images */}
-        <ImageList imagesFromServer={images} />
+        <ImageList imagesFromServer={images} profile={user.profile} />
         <Alert>
           <AlertTitle>Heads up!</AlertTitle>
           <AlertDescription>
