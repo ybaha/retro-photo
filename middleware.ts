@@ -1,8 +1,19 @@
-import { type NextRequest } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
+import createMiddleware from "next-intl/middleware";
+import { type NextRequest } from "next/server";
+
+const intlMiddlware = createMiddleware({
+  // A list of all locales that are supported
+  locales: ["en", "tr"],
+
+  // Used when no locale matches
+  defaultLocale: "en",
+});
 
 export async function middleware(request: NextRequest) {
-  return await updateSession(request);
+  await updateSession(request);
+
+  return intlMiddlware(request);
 }
 
 export const config = {
@@ -15,5 +26,7 @@ export const config = {
      * Feel free to modify this pattern to include more paths.
      */
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/",
+    "/(de|en)/:path*",
   ],
 };

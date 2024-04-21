@@ -1,6 +1,6 @@
 "use client";
 
-import { updateUser } from "@/app/(dashboard)/dashboard/actions";
+import { updateUser } from "@/app/[locale]/(dashboard)/dashboard/actions";
 import { Icons } from "@/components/icons";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -29,16 +29,32 @@ type User = Tables<"profiles"> & {
   email: string;
 };
 
-interface UserSettingsForm extends React.HTMLAttributes<HTMLFormElement> {
+interface UserSettingsForm {
   user: Pick<User, "id" | "full_name" | "email">;
+  personalInformationTitle: string;
+  personalInformationDescription: string;
+  nameLabel: string;
+  emailLabel: string;
+  deleteAccountTitle: string;
+  deleteAccountDescription: string;
+  saving: string;
+  saveChanges: string;
+  deleteAccount: string;
 }
 
 type FormData = z.infer<typeof userNameSchema>;
 
 export function UserSettingsForm({
   user,
-  className,
-  ...props
+  deleteAccount,
+  deleteAccountDescription,
+  deleteAccountTitle,
+  emailLabel,
+  nameLabel,
+  personalInformationDescription,
+  personalInformationTitle,
+  saveChanges,
+  saving,
 }: UserSettingsForm) {
   const router = useRouter();
 
@@ -74,22 +90,16 @@ export function UserSettingsForm({
   };
 
   return (
-    <form
-      className={cn(className, "flex flex-col gap-8")}
-      onSubmit={handleSubmit(onSubmit)}
-      {...props}
-    >
+    <form className={"flex flex-col gap-8"} onSubmit={handleSubmit(onSubmit)}>
       <Card className="w-full">
         <CardHeader>
-          <CardTitle>Personal Information</CardTitle>
-          <CardDescription>
-            Update your name and other personal information.
-          </CardDescription>
+          <CardTitle>{personalInformationTitle}</CardTitle>
+          <CardDescription>{personalInformationDescription}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-1">
             <Label className="mb-1" htmlFor="name">
-              Name
+              {nameLabel}
             </Label>
             <Input
               id="full_name"
@@ -104,7 +114,7 @@ export function UserSettingsForm({
           </div>
           <div className="grid gap-1 mt-6">
             <Label className="mb-1" htmlFor="name">
-              Email
+              {emailLabel}
             </Label>
             <Input id="full_name" size={32} value={user.email} disabled />
           </div>
@@ -112,13 +122,13 @@ export function UserSettingsForm({
         <CardFooter>
           <button
             type="submit"
-            className={cn(buttonVariants(), className)}
+            className={cn(buttonVariants())}
             disabled={isSaving}
           >
             {isSaving && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            <span>Save</span>
+            <span>{isSaving ? saving : saveChanges}</span>
           </button>
         </CardFooter>
       </Card>
@@ -126,12 +136,11 @@ export function UserSettingsForm({
       {/* delete user */}
       <Card>
         <CardHeader>
-          <CardTitle>Delete Account</CardTitle>
+          <CardTitle>{deleteAccountTitle}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            Deleting your account is irreversible. All your data will be
-            permanently deleted.
+            {deleteAccountDescription}
           </p>
         </CardContent>
         <CardFooter>
@@ -148,7 +157,7 @@ export function UserSettingsForm({
               }
             }}
           >
-            Delete Account
+            {deleteAccount}
           </Button>
         </CardFooter>
       </Card>

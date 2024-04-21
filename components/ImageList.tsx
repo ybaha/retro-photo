@@ -14,7 +14,7 @@ import {
 import {
   deleteImage,
   markImagesAsExpired,
-} from "@/app/(dashboard)/dashboard/actions";
+} from "@/app/[locale]/(dashboard)/dashboard/actions";
 import { Enums, Tables } from "@/types/supabase-types";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";

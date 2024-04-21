@@ -1,7 +1,6 @@
-import type { Icon } from "lucide-react";
-
-import { Icons } from "@/components/icons";
 import { Tables } from "./supabase-types";
+import { Icons } from "@/components/icons";
+import type { Icon } from "lucide-react";
 
 type User = Tables["profiles_stripe_info"];
 

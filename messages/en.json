@@ -1,0 +1,54 @@
+{
+  "main": {
+    "balance": "Balance",
+    "settings": "Settings",
+    "billing": "Billing",
+    "dashboard": "Dashboard",
+    "images": "Images"
+  },
+  "homepage": {
+    "title": "Hello world!",
+    "description": "This is a simple example of a homepage.",
+    "badge-text": "TRY FOR FREE!",
+    "get-started": "Get Started",
+    "view-on-github": "View on GitHub",
+    "features": "Features",
+    "features-description": "Here are some features of this project.",
+    "dashboard": "Dashboard",
+    "login": "Login"
+  },
+
+  "dashboard": {
+    "dashboard-header": "Create Images",
+    "dashboard-text": "You can create {count} more images",
+    "alert-title": "Heads up!",
+    "alert-description": "Since you haven't bought any image generation credits, you can only generate {count} image{count, plural, one {s} other {s}}. Once you buy credits, your images won't have any watermark"
+  },
+
+  "billing": {
+    "dashboard-header": "Billing",
+    "dashboard-text": "You can buy image generation credits here",
+    "pricing-header": "Pricing",
+    "pricing-text": "Choose the plan that works best for you.",
+    "pricing-card-title": "{type} Image Generation Credits",
+    "pricing-card-nowatermark": "No watermark",
+    "pricing-card-norecurringfees": "No recurring fees",
+    "pricing-card-buy-now": "Buy now",
+    "pricing-card-loading": "Loading...",
+    "pricing-card-most-popular": "Most popular"
+  },
+
+  "settings": {
+    "dashboard-header": "Settings",
+    "dashboard-text": "You can change your settings here",
+    "personal-information-title": "Personal Information",
+    "personal-information-description": "Update your personal information.",
+    "name-label": "Name",
+    "email-label": "Email",
+    "delete-account-title": "Delete Account",
+    "delete-account-description": "Delete your account and all associated data.",
+    "saving": "Saving...",
+    "save-changes": "Save Changes",
+    "delete-account": "Delete Account"
+  }
+}

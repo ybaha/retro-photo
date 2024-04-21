@@ -52,7 +52,7 @@ export function MainNav({ items, children }: MainNavProps) {
         {showMobileMenu ? <Icons.close /> : <Icons.logo />}
         <span className="font-bold">Menu</span>
       </button>
-      {showMobileMenu && items && (
+      {showMobileMenu && !!items?.length && (
         <MobileNav items={items} setShowMobileMenu={setShowMobileMenu}>
           {children}
         </MobileNav>

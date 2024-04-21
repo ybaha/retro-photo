@@ -2,7 +2,7 @@
 
 import { Button } from "./button";
 import { ScrollArea } from "./scroll-area";
-import { sendReplicateServerRequest } from "@/app/(dashboard)/dashboard/actions";
+import { sendReplicateServerRequest } from "@/app/[locale]/(dashboard)/dashboard/actions";
 import { UploadCloud, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";

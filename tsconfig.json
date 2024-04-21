@@ -29,7 +29,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".contentlayer/generated"
+    ".contentlayer/generated",
+    "app/[locale]/layout.tsz"
   ],
   "exclude": ["node_modules"]
 }

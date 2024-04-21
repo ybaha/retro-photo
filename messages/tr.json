@@ -1,0 +1,33 @@
+{
+  "homepage": {
+    "title": "Merhaba Dünya!",
+    "description": "Bu, bir anasayfa örneğidir.",
+    "badge-text": "ÜCRETSİZ DENEYİN!",
+    "get-started": "Başlayın",
+    "view-on-github": "GitHub'da Görüntüle",
+    "features": "Özellikler",
+    "features-description": "Bu projenin bazı özellikleri.",
+    "dashboard": "Panel",
+    "login": "Giriş Yap"
+  },
+
+  "dashboard": {
+    "dashboard-header": "Resimler Oluştur",
+    "dashboard-text": "Daha fazla {count} resim oluşturabilirsiniz",
+    "alert-title": "Dikkat!",
+    "alert-description": "Hiçbir resim oluşturma kredisi satın almadığınızdan, yalnızca {count} resim oluşturabilirsiniz. Kredileri satın aldıktan sonra resimlerinizde herhangi bir filigran olmayacak"
+  },
+
+  "billing": {
+    "dashboard-header": "Faturalandırma",
+    "dashboard-text": "Kredileri satın alın ve resimlerinizde RetroPhoto.co logosu olmadan kullanın",
+    "pricing-header": "Fiyatlandırma",
+    "pricing-text": "Size en uygun planı seçin.",
+    "pricing-card-title": "{type} Resim Oluşturma Kredisi",
+    "pricing-card-nowatermark": "Filigran yok",
+    "pricing-card-norecurringfees": "Tek seferlik ücret",
+    "pricing-card-buy-now": "Şimdi Satın Al",
+    "pricing-card-loading": "Yükleniyor...",
+    "pricing-card-most-popular": "En popüler"
+  }
+}

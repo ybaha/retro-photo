@@ -5,6 +5,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Dropzone from "@/components/ui/dropzone";
 import { getCurrentUser } from "@/lib/session";
 import { createClient } from "@/utils/supabase/server";
+import { getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -15,6 +16,7 @@ export const metadata = {
 
 export default async function CreateLink() {
   const user = await getCurrentUser(true);
+  const t = await getTranslations("dashboard");
 
   if (!user || !user.id) {
     console.log({ user });
@@ -34,8 +36,10 @@ export default async function CreateLink() {
   return (
     <DashboardShell>
       <DashboardHeader
-        heading="Create Images"
-        text={`You can create ${user.profile?.balance || 0} more images`}
+        heading={t("dashboard-header")}
+        text={t("dashboard-text", {
+          count: user.profile?.balance,
+        })}
       />
       <div className="grid gap-8" suppressHydrationWarning>
         <form>
@@ -45,12 +49,11 @@ export default async function CreateLink() {
         <ImageList imagesFromServer={images} profile={user.profile} />
         {!user.profile?.is_paid_user && (
           <Alert>
-            <AlertTitle>Heads up!</AlertTitle>
+            <AlertTitle>{t("alert-title")}</AlertTitle>
             <AlertDescription>
-              Since you haven't bought any image generation credits, you can
-              only generate {user.profile?.balance} image
-              {user.profile?.balance! > 1 ? "s" : ""}. Once you buy credits,
-              your images won't have any watermark
+              {t("alert-description", {
+                count: user.profile?.balance,
+              })}
             </AlertDescription>
           </Alert>
         )}
@@ -58,3 +61,4 @@ export default async function CreateLink() {
     </DashboardShell>
   );
 }
+// pluralization -> "message": "You have {count, plural, =0 {no followers yet} =1 {one follower} other {# followers}}."
