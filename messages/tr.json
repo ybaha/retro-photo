@@ -1,14 +1,21 @@
 {
+  "main": {
+    "balance": "Bakiye",
+    "settings": "Ayarlar",
+    "billing": "Faturalandırma",
+    "dashboard": "Panel",
+    "images": "Resimler"
+  },
   "homepage": {
     "title": "Merhaba Dünya!",
-    "description": "Bu, bir anasayfa örneğidir.",
-    "badge-text": "ÜCRETSİZ DENEYİN!",
-    "get-started": "Başlayın",
+    "description": "Bu, bir ana sayfa örneğidir.",
+    "badge-text": "ÜCRETSİZ DENE!",
+    "get-started": "Başla",
     "view-on-github": "GitHub'da Görüntüle",
     "features": "Özellikler",
     "features-description": "Bu projenin bazı özellikleri.",
     "dashboard": "Panel",
-    "login": "Giriş Yap"
+    "login": "Giriş"
   },
 
   "dashboard": {
@@ -20,14 +27,28 @@
 
   "billing": {
     "dashboard-header": "Faturalandırma",
-    "dashboard-text": "Kredileri satın alın ve resimlerinizde RetroPhoto.co logosu olmadan kullanın",
+    "dashboard-text": "Buradan resim oluşturma kredisi satın alabilirsiniz",
     "pricing-header": "Fiyatlandırma",
-    "pricing-text": "Size en uygun planı seçin.",
+    "pricing-text": "Sizin için en iyi çalışan planı seçin.",
     "pricing-card-title": "{type} Resim Oluşturma Kredisi",
     "pricing-card-nowatermark": "Filigran yok",
-    "pricing-card-norecurringfees": "Tek seferlik ücret",
+    "pricing-card-norecurringfees": "Tekrarlayan ücret yok",
     "pricing-card-buy-now": "Şimdi Satın Al",
     "pricing-card-loading": "Yükleniyor...",
     "pricing-card-most-popular": "En popüler"
+  },
+
+  "settings": {
+    "dashboard-header": "Ayarlar",
+    "dashboard-text": "Buradan ayarlarınızı değiştirebilirsiniz",
+    "personal-information-title": "Kişisel Bilgiler",
+    "personal-information-description": "Kişisel bilgilerinizi güncelleyin.",
+    "name-label": "Ad",
+    "email-label": "E-posta",
+    "delete-account-title": "Hesabı Sil",
+    "delete-account-description": "Hesabınızı ve tüm ilişkili verileri silin.",
+    "saving": "Kaydediliyor...",
+    "save-changes": "Değişiklikleri Kaydet",
+    "delete-account": "Hesabı Sil"
   }
 }

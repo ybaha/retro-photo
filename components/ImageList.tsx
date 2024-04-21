@@ -56,13 +56,14 @@ const checkExpired = (params: {
   }
 };
 
-export function ImageList({
-  imagesFromServer,
-  profile,
-}: {
+type ImageListProps = {
   imagesFromServer: Tables<"images">[] | null;
   profile: Tables<"profiles"> | null;
-}) {
+};
+
+export function ImageList(params: ImageListProps) {
+  const { imagesFromServer, profile } = params;
+
   const [images, setImages] = useState<Tables<"images">[] | null>(
     imagesFromServer
   );

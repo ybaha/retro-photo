@@ -28,8 +28,6 @@ export default async function DashboardLayout({
     title: t(item.title.toLocaleLowerCase()),
   }));
 
-  console.log({ items });
-
   return (
     <div className="flex min-h-screen flex-col space-y-6">
       <header className="sticky top-0 z-40 border-b bg-background">
