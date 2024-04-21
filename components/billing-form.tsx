@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { toast } from "@/components/ui/use-toast";
+import { prices } from "@/config/pricing";
 import { cn, formatDate } from "@/lib/utils";
 import { Loader } from "lucide-react";
 import * as React from "react";
@@ -49,55 +50,7 @@ export function BillingForm({ className, ...props }: BillingFormProps) {
 
   return (
     <form className={cn(className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle>Image Generation Balance</CardTitle>
-          <CardDescription></CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>
-            You can generate images with your balance. Once you run out, you
-            will need to top up your balance.
-          </p>
-        </CardContent>
-        <CardFooter className="flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0">
-          <button
-            type="submit"
-            className={cn(buttonVariants())}
-            disabled={isLoading}
-          >
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Get More Images
-          </button>
-        </CardFooter>
-      </Card>
-
-      <Pricing
-        withoutHeader
-        prices={[
-          {
-            title: "3 Image Generation Tokens",
-            price: "50TL",
-            features: ["No watermark", "No recurring fees"],
-            type: 3,
-          },
-          {
-            title: "10 Image Generation Tokens",
-            price: "150TL",
-            features: ["No watermark", "No recurring fees"],
-            isPopular: true,
-            type: 10,
-          },
-          {
-            title: "100 Image Generation Tokens",
-            price: "500TL",
-            features: ["No watermark", "No recurring fees"],
-            type: 100,
-          },
-        ]}
-      />
+      <Pricing withoutHeader prices={prices} />
     </form>
   );
 }

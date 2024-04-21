@@ -51,7 +51,7 @@ function PricingCard({
 }: PricingCardProps) {
   const [isLoading, setIsLoading] = useState(false);
 
-  async function onSubmit(type = 3) {
+  async function onSubmit(type: number) {
     setIsLoading(!isLoading);
 
     // Get a Stripe session URL.
@@ -106,7 +106,7 @@ function PricingCard({
         className="mt-8 w-full"
         onClick={(e) => {
           e.preventDefault();
-          onSubmit(type);
+          if (type) onSubmit(type);
         }}
       >
         {isLoading ? "Loading..." : "Buy Now"}

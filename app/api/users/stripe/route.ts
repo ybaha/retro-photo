@@ -1,3 +1,4 @@
+import { prices } from "@/config/pricing";
 import { proPlan } from "@/config/subscriptions";
 import { getCurrentUser } from "@/lib/session";
 import { stripe } from "@/lib/stripe";
@@ -20,9 +21,13 @@ export async function GET(req: Request) {
 
   const type = requestUrl.searchParams.get("type");
 
-  const tokens3 = type === "3" && process.env.STRIPE_PRICE_ID_3!;
-  const tokens10 = type === "10" && process.env.STRIPE_PRICE_ID_10!;
-  const tokens100 = type === "100" && process.env.STRIPE_PRICE_ID_100!;
+  const types = prices.map((price) => price.type.toString());
+
+  console.log({ type, types });
+
+  const tokens3 = type === types[0] && process.env.STRIPE_PRICE_ID_3!;
+  const tokens10 = type === types[1] && process.env.STRIPE_PRICE_ID_15!;
+  const tokens100 = type === types[2] && process.env.STRIPE_PRICE_ID_50!;
 
   const price = tokens3 || tokens10 || tokens100;
   console.log({ price });
