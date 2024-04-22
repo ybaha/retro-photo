@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 
 type PricingCardProps = {
-  title: string;
+  title?: string;
   price: string;
-  features: string[];
+  features?: string[];
   isPopular?: boolean;
   type?: number;
 };

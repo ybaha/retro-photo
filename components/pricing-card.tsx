@@ -8,7 +8,7 @@ import { useState } from "react";
 type PricingCardProps = {
   title: string;
   price: string;
-  features: string[];
+  features?: string[];
   isPopular?: boolean;
   type?: number;
   noWatermark?: string;
