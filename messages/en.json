@@ -50,5 +50,25 @@
     "saving": "Saving...",
     "save-changes": "Save Changes",
     "delete-account": "Delete Account"
+  },
+
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "forgot-password": "Forgot password?",
+    "back": "Back",
+    "login-title": "Welcome back!",
+    "login-description": "Login to your account",
+    "register-title": "Create an account",
+    "register-description": "Create an account to get started.",
+    "by-clicking-create-account-you-agree-to-our": "By clicking Create account, you agree to our",
+    "terms-of-service": "Terms of Service",
+    "privacy-policy": "Privacy Policy",
+    "welcome-back": "Welcome back!",
+    "login-to-your-account": "Login to your account",
+    "register-to-get-started": "Create an account to get started.",
+    "sign-in-with-email": "Sign in with email",
+    "create-account": "Create account",
+    "or-continue-with": "Or continue with"
   }
 }

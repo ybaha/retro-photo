@@ -24,7 +24,7 @@ export default async function DashboardLayout({
 
   const items = dashboardConfig.sidebarNav.map((item) => ({
     ...item,
-    href: locale + item.href,
+    href: item.href || "",
     title: t(item.title.toLocaleLowerCase()),
   }));
 

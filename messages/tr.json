@@ -50,5 +50,25 @@
     "saving": "Kaydediliyor...",
     "save-changes": "Değişiklikleri Kaydet",
     "delete-account": "Hesabı Sil"
+  },
+
+  "auth": {
+    "login": "Giriş",
+    "register": "Kayıt Ol",
+    "forgot-password": "Şifremi Unuttum?",
+    "back": "Geri",
+    "login-title": "Tekrar Hoşgeldiniz!",
+    "login-description": "Hesabınıza giriş yapın",
+    "register-title": "Hesap Oluştur",
+    "register-description": "Başlamak için bir hesap oluşturun.",
+    "by-clicking-create-account-you-agree-to-our": "Hesap Oluştur'a tıklayarak, şunları kabul edersiniz",
+    "terms-of-service": "Hizmet Şartları",
+    "privacy-policy": "Gizlilik Politikası",
+    "welcome-back": "Tekrar Hoşgeldiniz!",
+    "login-to-your-account": "Hesabınıza giriş yapın",
+    "register-to-get-started": "Başlamak için bir hesap oluşturun.",
+    "sign-in-with-email": "E-posta ile giriş yap",
+    "create-account": "Hesap oluştur",
+    "or-continue-with": "Diğer yontemlerle devam et"
   }
 }

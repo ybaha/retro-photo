@@ -16,6 +16,10 @@ import * as z from "zod";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   isRegister?: boolean;
+  signInWithEmail?: string;
+  orContinueWith?: string;
+  createAccount?: string;
+  password?: string;
 }
 
 type FormData = z.infer<typeof userAuthSchema>;
@@ -23,7 +27,10 @@ type FormData = z.infer<typeof userAuthSchema>;
 export function UserAuthForm({
   className,
   isRegister,
-
+  signInWithEmail,
+  orContinueWith,
+  createAccount,
+  password,
   ...props
 }: UserAuthFormProps) {
   const {
@@ -97,7 +104,7 @@ export function UserAuthForm({
           </div>
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="password">
-              Password
+              {password}
             </Label>
             <Input
               id="password"
@@ -119,7 +126,7 @@ export function UserAuthForm({
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In with Email
+            {isRegister ? createAccount : signInWithEmail}
           </button>
         </div>
       </form>
@@ -129,7 +136,7 @@ export function UserAuthForm({
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
+            {orContinueWith}
           </span>
         </div>
       </div>
